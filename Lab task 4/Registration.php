@@ -40,14 +40,26 @@
 		{
 			$err_name = "Name Required";
 		}
-		else
-		{
-			$name = $_POST["name"];
-		}
+		
+		
+		elseif(htmlspecialchars($_POST["name"]))
+		 {
+			 $err_name="HTML KeyWords Used";
+		 }
+		 
+		 else 
+		 {
+			 $name="No keywords used";
+			 $name=$_POST["name"];
+		 }
 		if(empty($_POST["uname"]))
 		{
 			$err_uname = "Username Required";
 		}
+		elseif(htmlspecialchars($_POST["uname"]))
+		 {
+			 $err_uname="HTML KeyWords Used";
+		 }
 		elseif(strlen($_POST["uname"]) < 6)
 		{
 			$err_uname = "Username should be at least 6 characters.";
@@ -61,6 +73,42 @@
 			$uname = $_POST["uname"];
 		}
 		if(empty($_POST["pass"]))
+		 {
+			 $err_pass="Password Required";
+		 }
+		 elseif(htmlspecialchars($_POST["pass"]))
+		 {
+			 $err_pass="HTML KeyWords Used";
+		 }
+		 elseif (strlen($_POST["pass"])<8) {
+		 	$err_pass="Password must be 8 charachters long";
+		 }
+		 elseif(!strpos($_POST["pass"],"#"))
+		 {
+			 $err_pass="Password should contain special character";
+		 }
+		 elseif(!is_numeric($_POST["pass"]))
+		 {
+			 $err_pass="Password should contain Numeric values";
+		 }
+		 elseif(!ctype_upper($_POST["pass"]))
+		 {
+			 $err_pass="Password should contain UpperCase values";
+		 }
+		 elseif(!ctype_lower($_POST["pass"]))
+		 {
+			 $err_pass="Password should contain LowerCase values";
+		 }
+
+		 elseif(strpos($_POST["pass"]," "))
+		 {
+			 $err_pass="Password should not contain white space";
+		 }
+		 else
+		 {
+			 $pass=$_POST["pass"];
+		 }
+		/*if(empty($_POST["pass"]))
 		{
 			$err_pass = "Password Required";
 		}
@@ -68,14 +116,19 @@
 		else
 		{
 			$pass = $_POST["pass"];
-		}
+		}*/
 		if(empty($_POST["c_pass"]))
 		{
 			$err_c_pass = "Password Required";
 		}
+		elseif ($pass == $c_pass)
+		{
+			$c_pass = "Password Match";
+			$c_pass = $_POST["c_pass"];
+		}
 		else
 		{
-			$c_pass = $_POST["c_pass"];
+			$err_c_pass = "Password does not match.";
 		}
 		if(empty($_POST["email"]))
 		{
@@ -89,9 +142,13 @@
 		{
 			$err_number = "Number Required";
 		}
-		else
+		elseif(is_numeric($number))
 		{
 			$number = $_POST["number"];
+		}
+		else
+		{
+			$err_number = "MUST CONTAIN ONLY NUMERIC VALUES!!";;
 		}
 		if(empty($_POST["p_code"]))
 		{
@@ -175,15 +232,17 @@
 		echo "Password: ". $_POST["pass"]."<br>";
 		echo "Confirmed Password: ". $_POST["c_pass"]."<br>";
 		echo "Email: ". $_POST["email"]."<br>";
+		
 		echo "Post Code: ". $_POST["p_code"]."<br>";
 		echo "Number: ". $_POST["number"]."<br>";
+		echo "Address: ". $_POST["s_add"].  $_POST["city"].  $_POST["state"].  $_POST["zip"]. "<br>";
 		echo "Gender: ". $_POST["gender"]."<br>";
-		echo "Profession: ". $_POST["profession"]."<br>";
+		echo "Date of Birth: ". $_POST["day"].  $_POST["month"]. $_POST["year"]."<br>";
 		echo "Bio: ". $_POST["bio"]."<br>";
 		
 			  
 		$var = $_POST["hobbies"];
-		echo "Hobbies: ";
+		echo "Where did you hear about us?: ";
 		for($i=0; $i<count($var); $i++)
 		{
 			echo $var[$i]. ", ";
@@ -294,8 +353,8 @@
 					<td><span><?php echo $err_gender;?></span></td>
 				</tr>
 				<tr>
-					<td><span><b>Where did you hear about us?</b>:</span></td>
-					<td>:<input type="checkbox" value = "A Fried or Collegue" name = hobbies[] > A Fried or Collegue <br>
+					<td><span><b>Where did you hear about us?</b></span></td>
+					<td><input type="checkbox" value = "A Fried or Collegue" name = hobbies[] > A Fried or Collegue <br>
 					    <input type="checkbox" value = "Google" name = hobbies[] > Google <br>
 						<input type="checkbox" value = "Blog Post" name = hobbies[] > Blog Post <br>
 						<input type="checkbox" value = "News Article" name = hobbies[] > News Article <br>
