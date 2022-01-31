@@ -1,5 +1,15 @@
 <?php
+	session_start();
+	if(!isset($_SESSION['logged_in']) && $_SESSION['logged_in']!=true)
+	header("Location:Login.php");
+
+	require_once "CoordinatorDBconfig.php";
+	$userID = $_SESSION['id'];
+	$sql1 = "SELECT * FROM coordinatorinfo WHERE c_id='$userID'";
+	$userData = get($sql1);
+	$userData = $userData[0];
 	
+
 	$department="";
 	$err_department="";
 	$doctor="";
@@ -53,9 +63,9 @@
 	
 	<td>
 	
-	<h2>Name: Muntanuz Zaman			("We will get this from Database")</h2>
-	<h3>ID: 18-37272-1					("We will get this from Database")</h3>
-	<h3>Hospital: Popular Diagnostic.	("We will get this from Database")</h3>
+	<h2>Name: <?=$userData['c_name']?></h2>
+	<h3>ID: <?=$userData['c_id']?></h3>
+	<h3>Hospital: <?=$userData['c_hospital']?></h3>
 	
 	
 	</td>
@@ -111,10 +121,11 @@
 	</table>
 	</form>
 	
-	<button  onclick="document.location='EditProfile.php'" style="height: 50px; width: 150px; float: left"><b><h3>Edit Profile</h3></b> </button><br><br><br>
+	<button  onclick="document.location='CoordinatorAccount.php'" style="height: 50px; width: 150px; float: left"><b><h3>Edit Profile</h3></b> </button><br><br><br>
+	<button  onclick="document.location='CoordinatorEditCredentials.php'" style="height: 50px; width: 150px; float: left"><b><h3>Edit Credentials</h3></b> </button><br><br><br>
 	<button  onclick="document.location='AdminSupport.php'" style="height: 50px; width: 150px; float: left"><b><h3>Contact Support</h3></b> </button><br><br><br>
 	<button  onclick="document.location='AppointmentRequest.php'" style="height: 50px; width: 200px; float: left"><b><h3>Appointment Request</h3></b> </button>
-	<button  onclick="document.location='Login.php'" style="height: 50px; width: 200px; float: right"><b><h3>Log Out</h3></b> </button>
+	<button  onclick="document.location='logout.php'" style="height: 50px; width: 200px; float: right"><b><h3>Log Out</h3></b> </button>
 	
 	
 	
